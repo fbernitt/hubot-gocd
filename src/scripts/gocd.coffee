@@ -58,19 +58,27 @@ buildStatus = (robot, msg) ->
   if not failed
     msg.send "Good news, everyone! All green!"
 
+initializeBrain = (robot) ->
+  parseData robot, (projects) ->
+    robot.brain.data.gociProjects[project.name] = project for project in projects
+
+
 module.exports = (robot) ->
   robot.brain.data.gociProjects or= { }
 
   robot.brain.on 'loaded', ->
-    robot.initializeBrain()
+    initializeBrain(robot)
     startCronJob(robot)
 
   robot.respond /build status/i, (msg) ->
     buildStatus(robot, msg)
 
+  robot.respond /build details/i, (msg) ->
+    for project in _.values(robot.brain.data.gociProjects)
+      msg.send("#{project.name}(#{project.lastBuildLabel}: #{project.lastBuildStatus}")
+
   initializeBrain: () ->
-    parseData robot, (projects) ->
-      robot.brain.data.gociProjects[project.name] = project for project in projects
+    initializeBrain(robot)
 
 
   fetchAndCompare: (callback) ->
