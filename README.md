@@ -1,6 +1,9 @@
+
 # hubot-gocd
 
 hubot-cron adds [GoCD](http://www.thoughtworks.com/products/go-continuous-delivery) monitoring support to hubot
+
+[![Build Status](https://travis-ci.org/fbernitt/hubot-gocd.png?branch=master)](https://travis-ci.org/fbernitt/hubot-gocd)
  
 ## Installation
 
