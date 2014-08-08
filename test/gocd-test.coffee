@@ -85,21 +85,28 @@ describe 'goci', ->
     expect(robot.respond).to.have.been.calledWith(/build status/i)
 
   it 'says all green if all builds are green', ->
+    msg =
+      send: sinon.spy()
+
     robot.brain.data.gociProjects['pixelated-user-agent :: functional-tests'] = { "name": "pixelated-user-agent :: functional-tests",  "lastBuildStatus": "Success", "lastBuildLabel": "37"}
     robot.brain.data.gociProjects["pixelated-user-agent :: unit-tests"] = { "name": "pixelated-user-agent :: unit-tests", "lastBuildStatus": "Success", "lastBuildLabel": "37"}
 
-    goci.buildStatus(robot)
+    goci.buildStatus(msg)
 
-    expect(robot.send).to.have.been.calledWith("Good news, everyone! All green!")
+    expect(msg.send).to.have.been.calledOnce
+    expect(msg.send).to.have.been.calledWith("Good news, everyone! All green!")
 
   it 'says broken builds if at least one is read', ->
+    msg =
+      send: sinon.spy()
+
     robot.brain.data.gociProjects['pixelated-user-agent :: functional-tests'] = { "name": "pixelated-user-agent :: functional-tests",  "lastBuildStatus": "Success", "lastBuildLabel": "37"}
     robot.brain.data.gociProjects["pixelated-user-agent :: unit-tests"] = { "name": "pixelated-user-agent :: unit-tests", "lastBuildStatus": "Failure", "lastBuildLabel": "37"}
 
-    goci.buildStatus(robot)
+    goci.buildStatus(msg)
 
-    expect(robot.send).to.have.been.calledWith("pixelated-user-agent :: unit-tests(#37) is broken!")
-    expect(robot.send).to.have.been.calledOnce
+    expect(msg.send).to.have.been.calledWith("pixelated-user-agent :: unit-tests(#37) is broken!")
+    expect(msg.send).to.have.been.calledOnce
 
   it 'starts a cronjob', ->
     cronJob =

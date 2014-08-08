@@ -49,14 +49,14 @@ startCronJob = (robot) ->
   )
   job.start()
 
-buildStatus = (robot) ->
+buildStatus = (robot, msg) ->
   failed = false
   for project in _.values(robot.brain.data.gociProjects)
     if "Failure" == project.lastBuildStatus
       failed = true
-      robot.send "#{project.name}(##{project.lastBuildLabel}) is broken!"
+      msg.send "#{project.name}(##{project.lastBuildLabel}) is broken!"
   if not failed
-    robot.send "Good news, everyone! All green!"
+    msg.send "Good news, everyone! All green!"
 
 module.exports = (robot) ->
   robot.brain.data.gociProjects or= { }
@@ -66,7 +66,7 @@ module.exports = (robot) ->
     startCronJob(robot)
 
   robot.respond /build status/i, (msg) ->
-    buildStatus(robot)
+    buildStatus(robot, msg)
 
   initializeBrain: () ->
     parseData robot, (projects) ->
@@ -76,8 +76,8 @@ module.exports = (robot) ->
   fetchAndCompare: (callback) ->
     fetchAndCompareData robot, callback
 
-  buildStatus: () ->
-    buildStatus(robot)
+  buildStatus: (msg) ->
+    buildStatus(robot, msg)
 
   startCronJob: () ->
     startCronJob(robot)
