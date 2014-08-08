@@ -112,5 +112,5 @@ describe 'goci', ->
 
     goci.startCronJob(robot)
 
-    expect(cron.CronJob).to.have.been.calledWith('*/2 * * * * *')
+    expect(cron.CronJob).to.have.been.calledWith('0 */2 * * * *')
     expect(cronJob.start).to.have.been.called

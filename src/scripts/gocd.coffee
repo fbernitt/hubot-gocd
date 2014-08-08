@@ -38,7 +38,7 @@ fetchAndCompareData = (robot, callback) ->
     callback? changes
 
 startCronJob = (robot) ->
-  job = new cron.CronJob("*/2 * * * * *", ->
+  job = new cron.CronJob("0 */2 * * * *", ->
     fetchAndCompareData robot, (changes) ->
       room = process.env["HUBOT_GITHUB_EVENT_NOTIFIER_ROOM"]
       for change in changes
