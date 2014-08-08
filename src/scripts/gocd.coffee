@@ -46,6 +46,7 @@ startCronJob = (robot) ->
           robot.messageRoom room, "Good news, everyone! #{change.name} is green again in ##{change.lastBuildLabel})!"
         else if "Failed" == change.type
           robot.messageRoom room, "Whoops! #{change.name} FAILED in ##{change.lastBuildLabel})!"
+    updateBrain(robot)
   )
   job.start()
 
@@ -58,7 +59,7 @@ buildStatus = (robot, msg) ->
   if not failed
     msg.send "Good news, everyone! All green!"
 
-initializeBrain = (robot) ->
+updateBrain = (robot) ->
   parseData robot, (projects) ->
     robot.brain.data.gociProjects[project.name] = project for project in projects
 
@@ -66,9 +67,8 @@ initializeBrain = (robot) ->
 module.exports = (robot) ->
   robot.brain.data.gociProjects or= { }
 
-  initializeBrain(robot)
+  updateBrain(robot)
   startCronJob(robot)
-  console.info('Initialzed hubot-gocd')
 
   robot.respond /build status/i, (msg) ->
     buildStatus(robot, msg)
@@ -77,8 +77,8 @@ module.exports = (robot) ->
     for project in _.values(robot.brain.data.gociProjects)
       msg.send("#{project.name}(#{project.lastBuildLabel}: #{project.lastBuildStatus}")
 
-  initializeBrain: () ->
-    initializeBrain(robot)
+  updateBrain: () ->
+    updateBrain(robot)
 
 
   fetchAndCompare: (callback) ->

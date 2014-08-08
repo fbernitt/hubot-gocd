@@ -54,18 +54,18 @@ describe 'goci', ->
   it 'should initialize brain with cctray xml', ->
     fs.readFile __dirname + '/fixtures/cctray.xml', (err, data) ->
       getSpy.returns((callback)-> callback? null, null, data)
-      goci.initializeBrain()
+      goci.updateBrain()
       expect(httpSpy).to.have.been.calledWith('http://localhost:1345/cctray.xml')
       expect(Object.keys(robot.brain.data.gociProjects).length).to.equal(11)
 
   it 'should not raise an error if fetching file failed', ->
     getSpy.returns((callback)-> callback? 'some error', null, null)
-    goci.initializeBrain()
+    goci.updateBrain()
     expect(Object.keys(robot.brain.data.gociProjects).length).to.equal(0)
 
   it 'should cope with invalid xml data', ->
     getSpy.returns((callback)-> callback? null, null, 'some invalid data')
-    goci.initializeBrain()
+    goci.updateBrain()
 
   it 'should fetch and compare deltas', ->
     robot.brain.data.gociProjects['pixelated-user-agent :: functional-tests'] = { "name": "pixelated-user-agent :: functional-tests",  "lastBuildStatus": "Success", "lastBuildLabel": "37"}
