@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Projects>
+    <Project name="pixelated-user-agent :: unit-tests" activity="Sleeping" lastBuildStatus="Success" lastBuildLabel="38" lastBuildTime="2014-08-06T21:57:24" webUrl="https://hypervisor.wazokazi.is:8154/go/pipelines/pixelated-user-agent/38/unit-tests/1" />
+    <Project name="pixelated-user-agent :: unit-tests :: js-unit-tests" activity="Sleeping" lastBuildStatus="Success" lastBuildLabel="38" lastBuildTime="2014-08-06T21:54:15" webUrl="https://hypervisor.wazokazi.is:8154/go/tab/build/detail/pixelated-user-agent/38/unit-tests/1/js-unit-tests" />
+    <Project name="pixelated-user-agent :: unit-tests :: python-unit-tests" activity="Sleeping" lastBuildStatus="Success" lastBuildLabel="38" lastBuildTime="2014-08-06T21:57:24" webUrl="https://hypervisor.wazokazi.is:8154/go/tab/build/detail/pixelated-user-agent/38/unit-tests/1/python-unit-tests" />
+    <Project name="pixelated-user-agent :: functional-tests" activity="Sleeping" lastBuildStatus="Failure" lastBuildLabel="38" lastBuildTime="2014-08-06T22:00:16" webUrl="https://hypervisor.wazokazi.is:8154/go/pipelines/pixelated-user-agent/38/functional-tests/1">
+        <messages>
+            <message text="Duda Dornelles &lt;ddornell@thoughtworks.com&gt;" kind="Breakers" />
+        </messages>
+    </Project>
+    <Project name="pixelated-user-agent :: functional-tests :: fake-backend-functional-tests" activity="Sleeping" lastBuildStatus="Failure" lastBuildLabel="38" lastBuildTime="2014-08-06T22:00:16" webUrl="https://hypervisor.wazokazi.is:8154/go/tab/build/detail/pixelated-user-agent/38/functional-tests/1/fake-backend-functional-tests">
+        <messages>
+            <message text="Duda Dornelles &lt;ddornell@thoughtworks.com&gt;" kind="Breakers" />
+        </messages>
+    </Project>
+    <Project name="leapQemuImage :: buildImage" activity="Sleeping" lastBuildStatus="Success" lastBuildLabel="23" lastBuildTime="2014-08-06T15:33:49" webUrl="https://hypervisor.wazokazi.is:8154/go/pipelines/leapQemuImage/23/buildImage/1" />
+    <Project name="leapQemuImage :: buildImage :: syncSources" activity="Sleeping" lastBuildStatus="Success" lastBuildLabel="23" lastBuildTime="2014-08-06T14:39:11" webUrl="https://hypervisor.wazokazi.is:8154/go/tab/build/detail/leapQemuImage/23/buildImage/1/syncSources" />
+    <Project name="leapQemuImage :: buildImage :: buildImage" activity="Sleeping" lastBuildStatus="Success" lastBuildLabel="23" lastBuildTime="2014-08-06T15:33:49" webUrl="https://hypervisor.wazokazi.is:8154/go/tab/build/detail/leapQemuImage/23/buildImage/1/buildImage" />
+    <Project name="pixelated-dispatcher :: Unittests" activity="Sleeping" lastBuildStatus="Success" lastBuildLabel="17" lastBuildTime="2014-08-06T21:55:30" webUrl="https://hypervisor.wazokazi.is:8154/go/pipelines/pixelated-dispatcher/17/Unittests/1" />
+    <Project name="pixelated-dispatcher :: Unittests :: runUnittests" activity="Sleeping" lastBuildStatus="Success" lastBuildLabel="17" lastBuildTime="2014-08-06T21:54:59" webUrl="https://hypervisor.wazokazi.is:8154/go/tab/build/detail/pixelated-dispatcher/17/Unittests/1/runUnittests" />
+    <Project name="pixelated-dispatcher :: Unittests :: pep8Tests" activity="Sleeping" lastBuildStatus="Success" lastBuildLabel="17" lastBuildTime="2014-08-06T21:55:30" webUrl="https://hypervisor.wazokazi.is:8154/go/tab/build/detail/pixelated-dispatcher/17/Unittests/1/pep8Tests" />
+</Projects>

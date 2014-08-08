@@ -1,0 +1,37 @@
+{
+  "name": "hubot-gocd",
+  "version": "0.0.1",
+  "description": "Hubot adapter for GoCD",
+  "main": "./src/index.coffee",
+  "scripts": {
+    "test": "grunt test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/fbernitt/hubot-goci.git"
+  },
+  "keywords": [
+    "hubot",
+    "goci"
+  ],
+  "author": "Folker Bernitt",
+  "license": "APLv2",
+  "dependencies": {
+    "coffee-script": ">= 1.7",
+    "xml2js": ">=0.4.4",
+    "cron": ">= 1.0.1",
+    "underscore": ">=1.6.0"
+  },
+  "devDependencies": {
+      "mocha": "*",
+      "chai": "*",
+      "sinon-chai": "*",
+      "sinon": "*",
+      "grunt": "~0.4.4",
+      "grunt-cli": "~0.1.13",
+      "grunt-mocha-test": "~0.7.0",
+      "grunt-release": "~0.6.0",
+      "matchdep": "~0.1.2",
+      "grunt-contrib-watch": "~0.5.3"
+  }
+}
