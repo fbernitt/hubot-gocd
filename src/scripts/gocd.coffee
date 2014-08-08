@@ -66,9 +66,9 @@ initializeBrain = (robot) ->
 module.exports = (robot) ->
   robot.brain.data.gociProjects or= { }
 
-  robot.brain.on 'loaded', ->
-    initializeBrain(robot)
-    startCronJob(robot)
+  initializeBrain(robot)
+  startCronJob(robot)
+  console.info('Initialzed hubot-gocd')
 
   robot.respond /build status/i, (msg) ->
     buildStatus(robot, msg)

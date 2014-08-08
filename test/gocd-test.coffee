@@ -51,9 +51,6 @@ describe 'goci', ->
   it 'should initialize robot brain', ->
     expect(robot.brain.data.gociProjects).to.eql({})
 
-  it 'should load cctray on start up', ->
-    expect(robot.brain.on).to.have.been.calledWith('loaded')
-
   it 'should initialize brain with cctray xml', ->
     fs.readFile __dirname + '/fixtures/cctray.xml', (err, data) ->
       getSpy.returns((callback)-> callback? null, null, data)
