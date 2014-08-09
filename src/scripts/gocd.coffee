@@ -30,6 +30,37 @@ if not cctrayUrl?
 if not room?
   console.warn("hubot-gocd is not setup announce build notifications into a chat room (HUBOT_GITHUB_EVENT_NOTIFIER_ROOM is empty)!")
 
+module.exports = (robot) ->
+  robot.brain.data.gociProjects or= { }
+
+  updateBrain(robot)
+  startCronJob(robot)
+
+  robot.respond /build status/i, (msg) ->
+    buildStatus(robot, msg)
+
+  robot.respond /build details/i, (msg) ->
+    for project in _.values(robot.brain.data.gociProjects)
+      msg.send("#{project.name}(#{project.lastBuildLabel}: #{project.lastBuildStatus}")
+
+  # exported functions for testing
+  updateBrain: () ->
+    updateBrain(robot)
+
+  fetchAndCompare: (callback) ->
+    fetchAndCompareData robot, callback
+
+  buildStatus: (msg) ->
+    buildStatus(robot, msg)
+
+  startCronJob: () ->
+    startCronJob(robot)
+
+  cronTick: () ->
+    crontTick(robot)
+
+# private functions
+
 parseData = (robot, callback) ->
   cctrayUrl = process.env.HUBOT_GOCI_CCTRAY_URL
   robot.http(cctrayUrl)
@@ -86,32 +117,3 @@ updateBrain = (robot) ->
   parseData robot, (projects) ->
     robot.brain.data.gociProjects[project.name] = project for project in projects
 
-
-module.exports = (robot) ->
-  robot.brain.data.gociProjects or= { }
-
-  updateBrain(robot)
-  startCronJob(robot)
-
-  robot.respond /build status/i, (msg) ->
-    buildStatus(robot, msg)
-
-  robot.respond /build details/i, (msg) ->
-    for project in _.values(robot.brain.data.gociProjects)
-      msg.send("#{project.name}(#{project.lastBuildLabel}: #{project.lastBuildStatus}")
-
-  updateBrain: () ->
-    updateBrain(robot)
-
-
-  fetchAndCompare: (callback) ->
-    fetchAndCompareData robot, callback
-
-  buildStatus: (msg) ->
-    buildStatus(robot, msg)
-
-  startCronJob: () ->
-    startCronJob(robot)
-
-  cronTick: () ->
-    crontTick(robot)
