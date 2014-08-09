@@ -135,3 +135,15 @@ describe 'goci', ->
 
       expect(robot.messageRoom).to.have.been.calledWith("#someroom", "Whoops! pixelated-user-agent :: functional-tests FAILED in #38)!")
       expect(robot.messageRoom).to.have.been.calledWith("#someroom", "Good news, everyone! pixelated-user-agent :: unit-tests is green again in #38)!")
+
+  it 'updates brain each cron tick', ->
+    robot.brain.data.gociProjects['pixelated-user-agent :: functional-tests'] = { "name": "pixelated-user-agent :: functional-tests", "lastBuildStatus": "Success", "lastBuildLabel": "37"}
+    robot.brain.data.gociProjects['pixelated-user-agent :: unit-tests'] = { "name": "pixelated-user-agent :: unit-tests", "lastBuildStatus": "Failure", "lastBuildLabel": "37"}
+
+    fs.readFile __dirname + '/fixtures/cctray.xml', (err, data) ->
+      getSpy.returns((callback)->
+        callback? null, null, data)
+      goci.cronTick(robot)
+
+      expect(robot.brain.data.gociProjects['pixelated-user-agent :: functional-tests'].lastBuildStatus).to.equal('Failure')
+      expect(robot.brain.data.gociProjects['pixelated-user-agent :: unit-tests'].lastBuildStatus).to.equal('Success')
