@@ -20,14 +20,15 @@
 
 cron = require('cron')
 _ = require('underscore')
+parser = require './util/parser'
 
+room =  process.env.HUBOT_GITHUB_EVENT_NOTIFIER_ROOM
 cctrayUrl = process.env.HUBOT_GOCI_CCTRAY_URL
 
 if not cctrayUrl?
-  console.warn("hubot-goci is not setup to fetch cctray.xml from a url (HUBOT_GOCI_CCTRAY_URL) is empty")
-
-
-parser = require './util/parser'
+  console.warn("hubot-gocd is not setup to fetch cctray.xml from a url (HUBOT_GOCI_CCTRAY_URL is empty)!")
+if not room?
+  console.warn("hubot-gocd is not setup announce build notifications into a chat room (HUBOT_GITHUB_EVENT_NOTIFIER_ROOM is empty)!")
 
 parseData = (robot, callback) ->
   cctrayUrl = process.env.HUBOT_GOCI_CCTRAY_URL
@@ -55,16 +56,20 @@ fetchAndCompareData = (robot, callback) ->
         changes.push {"name": project.name, "type": changedStatus, "lastBuildLabel": project.lastBuildLabel}
     callback? changes
 
-startCronJob = (robot) ->
-  job = new cron.CronJob("0 */2 * * * *", ->
-    fetchAndCompareData robot, (changes) ->
-      room = process.env["HUBOT_GITHUB_EVENT_NOTIFIER_ROOM"]
+crontTick = (robot) ->
+  fetchAndCompareData robot, (changes) ->
+    room = process.env.HUBOT_GITHUB_EVENT_NOTIFIER_ROOM
+    if room?
       for change in changes
         if "Fixed" == change.type
           robot.messageRoom room, "Good news, everyone! #{change.name} is green again in ##{change.lastBuildLabel})!"
         else if "Failed" == change.type
           robot.messageRoom room, "Whoops! #{change.name} FAILED in ##{change.lastBuildLabel})!"
-    updateBrain(robot)
+  updateBrain(robot)
+
+startCronJob = (robot) ->
+  job = new cron.CronJob("0 */2 * * * *", ->
+    crontTick(robot)
   )
   job.start()
 
@@ -107,3 +112,6 @@ module.exports = (robot) ->
 
   startCronJob: () ->
     startCronJob(robot)
+
+  cronTick: () ->
+    crontTick(robot)
