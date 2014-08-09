@@ -1,6 +1,6 @@
 {
   "name": "hubot-gocd",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Hubot adapter for GoCD",
   "main": "./src/index.coffee",
   "scripts": {
@@ -23,15 +23,15 @@
     "underscore": ">=1.6.0"
   },
   "devDependencies": {
-      "mocha": "*",
-      "chai": "*",
-      "sinon-chai": "*",
-      "sinon": "*",
-      "grunt": "~0.4.4",
-      "grunt-cli": "~0.1.13",
-      "grunt-mocha-test": "~0.7.0",
-      "grunt-release": "~0.6.0",
-      "matchdep": "~0.1.2",
-      "grunt-contrib-watch": "~0.5.3"
+    "mocha": "*",
+    "chai": "*",
+    "sinon-chai": "*",
+    "sinon": "*",
+    "grunt": "~0.4.4",
+    "grunt-cli": "~0.1.13",
+    "grunt-mocha-test": "~0.7.0",
+    "grunt-release": "~0.6.0",
+    "matchdep": "~0.1.2",
+    "grunt-contrib-watch": "~0.5.3"
   }
 }
