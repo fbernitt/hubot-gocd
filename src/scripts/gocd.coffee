@@ -1,4 +1,22 @@
-#https://github.com/miyagawa/hubot-cron/blob/master/src/index.coffee
+# Description:
+#   A hubot build monitor for the go continuous integration server (http://www.thoughtworks.com/products/go-continuous-delivery).
+#
+# Dependencies:
+#   "coffee-script": ">= 1.7",
+#   "xml2js": ">=0.4.4",
+#   "cron": ">= 1.0.1",
+#   "underscore": ">=1.6.0"
+#
+# Configuration:
+#   HUBOT_GITHUB_EVENT_NOTIFIER_ROOM - The chatroom to write build events to
+#   HUBOT_GOCI_CCTRAY_URL - The URL of the cctray.xml
+#
+# Commands:
+#   hubot build status - Show current build status (only broken builds)
+#   hubot build details - Show current status for each build pipeline
+#
+# Author:
+#   fbernitt
 
 cron = require('cron')
 _ = require('underscore')
