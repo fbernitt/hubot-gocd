@@ -1,6 +1,6 @@
 {
   "name": "hubot-gocd",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Hubot adapter for GoCD",
   "main": "./src/index.coffee",
   "scripts": {
