@@ -36,6 +36,13 @@ You need to specify the chat room to use for build events and the cctray.xml to 
       HUBOT_GOCI_CCTRAY_URL="http://my.goserver.example/cctray.xml" \
       bin/hubot
 
+If your GoCD server requires authentication to access cctray.xml you can provide them by setting the environment variables:
+
+      HUBOT_GOCD_USERNAME="username"
+      HUBOT_GOCD_PASSWORD="password"
+
+Preferably, create a user account with read-only access on GoCD for Hubot.
+
 ## Usage
 
 ```
