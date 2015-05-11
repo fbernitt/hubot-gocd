@@ -63,8 +63,15 @@ module.exports = (robot) ->
 
 parseData = (robot, callback) ->
   cctrayUrl = process.env.HUBOT_GOCI_CCTRAY_URL
-  robot.http(cctrayUrl)
-  .get() (err, res, body) ->
+  user = process.env.HUBOT_GOCD_USERNAME
+  pass = process.env.HUBOT_GOCD_PASSWORD
+  request = robot.http(cctrayUrl)
+
+  if (user && pass)
+    auth = 'Basic ' + new Buffer(user + ':' + pass).toString('base64');
+    request = request.headers(Authorization: auth, Accept: 'application/json')
+
+  request.get() (err, res, body) ->
     if not err
       try
         projects = parser.parse_cctray(body)
@@ -75,7 +82,7 @@ parseData = (robot, callback) ->
         else
           throw e
     else
-      console.warn("Failed to fetch data from #{cctrayUrl}")
+      console.warn("Failed to fetch data from #{cctrayUrl} with error : #{err}")
 
 fetchAndCompareData = (robot, callback) ->
   parseData robot, (projects) ->
@@ -116,4 +123,3 @@ buildStatus = (robot, msg) ->
 updateBrain = (robot) ->
   parseData robot, (projects) ->
     robot.brain.data.gociProjects[project.name] = project for project in projects
-

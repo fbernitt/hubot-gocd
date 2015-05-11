@@ -43,6 +43,7 @@ describe 'goci', ->
               callback? null, null, null)
             httpSpy.get = getSpy
             httpSpy.header = httpSpy
+            httpSpy.headers = httpSpy
             robot.brain.data = {}
             robot.brain.on = sinon.spy()
 
@@ -147,3 +148,13 @@ describe 'goci', ->
 
       expect(robot.brain.data.gociProjects['pixelated-user-agent :: functional-tests'].lastBuildStatus).to.equal('Failure')
       expect(robot.brain.data.gociProjects['pixelated-user-agent :: unit-tests'].lastBuildStatus).to.equal('Success')
+
+  it 'should use auth headers in cctray request if username and password are provided', ->
+    process.env.HUBOT_GOCD_USERNAME = "someuser"
+    process.env.HUBOT_GOCD_PASSWORD = "some password"
+    fs.readFile __dirname + '/fixtures/cctray.xml', (err, data) ->
+      getSpy.returns((callback)->
+        callback? null, null, data)
+      goci.updateBrain()
+      expect(httpSpy.header).to.have.been.calledWith('http://localhost:1345/cctray.xml')
+      expect(Object.keys(robot.brain.data.gociProjects).length).to.equal(11)
