@@ -48,7 +48,7 @@ describe 'goci', ->
             robot.brain.on = sinon.spy()
 
             process.env.HUBOT_GOCI_CCTRAY_URL = 'http://localhost:1345/cctray.xml'
-            process.env.HUBOT_GITHUB_EVENT_NOTIFIER_ROOM = '#someroom'
+            process.env.HUBOT_GOCI_EVENT_NOTIFIER_ROOM = '#someroom'
 
             goci = require('../src/scripts/gocd')(robot)
 
@@ -127,7 +127,7 @@ describe 'goci', ->
   it 'announces builds that switched state to chat room', ->
     robot.brain.data.gociProjects['pixelated-user-agent :: functional-tests'] = { "name": "pixelated-user-agent :: functional-tests", "lastBuildStatus": "Success", "lastBuildLabel": "37"}
     robot.brain.data.gociProjects["pixelated-user-agent :: unit-tests"] = { "name": "pixelated-user-agent :: unit-tests", "lastBuildStatus": "Failure", "lastBuildLabel": "37"}
-    process.env.HUBOT_GITHUB_EVENT_NOTIFIER_ROOM = '#someroom'
+    process.env.HUBOT_GOCI_EVENT_NOTIFIER_ROOM = '#someroom'
 
     fs.readFile __dirname + '/fixtures/cctray.xml', (err, data) ->
       getSpy.returns((callback)->
