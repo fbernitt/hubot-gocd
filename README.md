@@ -32,7 +32,7 @@ Add `hubot-gocd` to `external-scripts.json`.
 
 You need to specify the chat room to use for build events and the cctray.xml to use on startup:
 
-    % HUBOT_GITHUB_EVENT_NOTIFIER_ROOM="#roomname" \
+    % HUBOT_GOCI_EVENT_NOTIFIER_ROOM="#roomname" \
       HUBOT_GOCI_CCTRAY_URL="http://my.goserver.example/cctray.xml" \
       bin/hubot
 

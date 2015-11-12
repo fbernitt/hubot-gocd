@@ -8,7 +8,7 @@
 #   "underscore": ">=1.6.0"
 #
 # Configuration:
-#   HUBOT_GITHUB_EVENT_NOTIFIER_ROOM - The chatroom to write build events to
+#   HUBOT_GOCI_EVENT_NOTIFIER_ROOM - The chatroom to write build events to
 #   HUBOT_GOCI_CCTRAY_URL - The URL of the cctray.xml
 #
 # Commands:
@@ -22,13 +22,13 @@ cron = require('cron')
 _ = require('underscore')
 parser = require './util/parser'
 
-room =  process.env.HUBOT_GITHUB_EVENT_NOTIFIER_ROOM
+room =  process.env.HUBOT_GOCI_EVENT_NOTIFIER_ROOM
 cctrayUrl = process.env.HUBOT_GOCI_CCTRAY_URL
 
 if not cctrayUrl?
   console.warn("hubot-gocd is not setup to fetch cctray.xml from a url (HUBOT_GOCI_CCTRAY_URL is empty)!")
 if not room?
-  console.warn("hubot-gocd is not setup announce build notifications into a chat room (HUBOT_GITHUB_EVENT_NOTIFIER_ROOM is empty)!")
+  console.warn("hubot-gocd is not setup announce build notifications into a chat room (HUBOT_GOCI_EVENT_NOTIFIER_ROOM is empty)!")
 
 module.exports = (robot) ->
   robot.brain.data.gociProjects or= { }
@@ -96,7 +96,7 @@ fetchAndCompareData = (robot, callback) ->
 
 crontTick = (robot) ->
   fetchAndCompareData robot, (changes) ->
-    room = process.env.HUBOT_GITHUB_EVENT_NOTIFIER_ROOM
+    room = process.env.HUBOT_GOCI_EVENT_NOTIFIER_ROOM
     if room?
       for change in changes
         if "Fixed" == change.type
