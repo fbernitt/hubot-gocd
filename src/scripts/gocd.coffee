@@ -10,6 +10,10 @@
 # Configuration:
 #   HUBOT_GOCI_EVENT_NOTIFIER_ROOM - The chatroom to write build events to
 #   HUBOT_GOCI_CCTRAY_URL - The URL of the cctray.xml
+#   HUBOT_GOCI_TLS_CA_FILE - The certificate authority file to use (default system)
+#   HUBOT_GOCI_TLS_REJECT_UNAUTHORIZED - Reject unauthorized certificates (default true)
+#   HUBOT_GOCD_PASSWORD - The BasicAuth password for GoCD
+#   HUBOT_GOCD_PASSWORD - The BasicAuth password for GoCD
 #
 # Commands:
 #   hubot build status - Show current build status (only broken builds)
@@ -18,6 +22,7 @@
 # Author:
 #   fbernitt
 
+fs = require('fs')
 cron = require('cron')
 _ = require('underscore')
 parser = require './util/parser'
@@ -29,6 +34,7 @@ if not cctrayUrl?
   console.warn("hubot-gocd is not setup to fetch cctray.xml from a url (HUBOT_GOCI_CCTRAY_URL is empty)!")
 if not room?
   console.warn("hubot-gocd is not setup announce build notifications into a chat room (HUBOT_GOCI_EVENT_NOTIFIER_ROOM is empty)!")
+
 
 module.exports = (robot) ->
   robot.brain.data.gociProjects or= { }
@@ -65,7 +71,10 @@ parseData = (robot, callback) ->
   cctrayUrl = process.env.HUBOT_GOCI_CCTRAY_URL
   user = process.env.HUBOT_GOCD_USERNAME
   pass = process.env.HUBOT_GOCD_PASSWORD
-  request = robot.http(cctrayUrl)
+  options =
+	  ca: tlsCaFile(robot)
+	  rejectUnauthorized: rejectUnauthorized()
+  request = robot.http(cctrayUrl, options)
 
   if (user && pass)
     auth = 'Basic ' + new Buffer(user + ':' + pass).toString('base64');
@@ -123,3 +132,17 @@ buildStatus = (robot, msg) ->
 updateBrain = (robot) ->
   parseData robot, (projects) ->
     robot.brain.data.gociProjects[project.name] = project for project in projects
+
+tlsCaFile = (robot) ->
+	if (typeof process.env.HUBOT_GOCI_TLS_CA_FILE isnt "undefined")
+		return fs.readFileSync(process.env.HUBOT_GOCI_TLS_CA_FILE, "utf-8")
+	else
+		return undefined
+
+rejectUnauthorized = () ->
+	if (process.env.HUBOT_GOCI_TLS_REJECT_UNAUTHORIZED?)
+		return JSON.parse(process.env.HUBOT_GOCI_TLS_REJECT_UNAUTHORIZED)
+	else
+		return true
+
+

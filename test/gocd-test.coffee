@@ -49,6 +49,8 @@ describe 'goci', ->
 
             process.env.HUBOT_GOCI_CCTRAY_URL = 'http://localhost:1345/cctray.xml'
             process.env.HUBOT_GOCI_EVENT_NOTIFIER_ROOM = '#someroom'
+            delete process.env.HUBOT_GOCI_TLS_CA_FILE
+            delete process.env.HUBOT_GOCI_TLS_REJECT_UNAUTHORIZED
 
             goci = require('../src/scripts/gocd')(robot)
 
@@ -158,3 +160,27 @@ describe 'goci', ->
       goci.updateBrain()
       expect(httpSpy.header).to.have.been.calledWith('http://localhost:1345/cctray.xml')
       expect(Object.keys(robot.brain.data.gociProjects).length).to.equal(11)
+
+  it 'should use specified ca file', (done) ->
+    https_url = 'https://localhost:1345/cctray.xml'
+    process.env.HUBOT_GOCI_TLS_CA_FILE = __dirname + '/fixtures/sample-ca.crt'
+    process.env.HUBOT_GOCI_CCTRAY_URL = https_url
+    fs.readFile __dirname + '/fixtures/cctray.xml', (err, data) ->
+      getSpy.returns((callback)->
+        callback? null, null, data)
+      goci.updateBrain()
+      expect(httpSpy.header).to.have.been.calledWith(https_url, { ca: "sample ca", rejectUnauthorized: true })
+      done()
+    
+  it 'should not reject unauthorized certificates if requested', (done) ->
+    https_url = 'https://localhost:1345/cctray.xml'
+    process.env.HUBOT_GOCI_CCTRAY_URL = https_url
+    process.env.HUBOT_GOCI_TLS_REJECT_UNAUTHORIZED = 'false'
+    delete process.env.HUBOT_GOCI_TLS_CA_FILE
+    fs.readFile __dirname + '/fixtures/cctray.xml', (err, data) ->
+      getSpy.returns((callback)->
+        callback? null, null, data)
+      goci.updateBrain()
+      expect(httpSpy.header).to.have.been.calledWith(https_url, { ca: undefined, rejectUnauthorized: false })
+      done()
+   

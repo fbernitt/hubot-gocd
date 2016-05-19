@@ -56,3 +56,19 @@ hubot> some-pipeline :: unit-tests(#37) is broken!
 ...
 hubot> Good news, everyone! some-pipeline :: unit-tests is green again in #38!
 ```
+
+## TLS Support
+
+You can specify your own certificate authority file if you need to use a certificate that does not validate against the system one
+and you can't add your CA to the system list
+
+```
+HUBOT_GOCI_TLS_CA_FILE=/path/to/ca.crt ... bin/hubot
+```
+
+IF you just want to test TLS connectivity, you can also disable certificate validation **use at your own risk**,
+
+```
+HUBOT_GOCI_TLS_REJECT_UNAUTHORIZED=false ... bin/hubot
+```
+
